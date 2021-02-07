@@ -20,4 +20,24 @@ public class Client implements OperationServerInterface{
 		return response;
 	}
 
+	@Override
+	public int authenticateUser(String username, String password) throws RemoteException {
+		// TODO Auto-generated method stub
+		/*int response = bankServer.authenticateUser(username, password);
+		return response;*/
+		return 0;
+	}
+
+	@Override
+	public String creatAccount(String username, double deposit) throws RemoteException {
+		// TODO Auto-generated method stub
+		return "343434-34";
+	}
+
+	@Override
+	public int createUser(String name, String username, String password) throws RemoteException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

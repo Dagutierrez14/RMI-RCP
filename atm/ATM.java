@@ -17,8 +17,6 @@ public class ATM {
     f.setVisible(true);// making the frame visible
   }
 
-
-
   public void mainMenu() {
     clear();
     // Titles
@@ -78,7 +76,7 @@ public class ATM {
             newUserForm();
           } else {
             if (response == 1) {
-              errorMessage("Tiene abierta m\u00e1s de una cuenta", 170);
+              message("Ya tiene abierta tres cuenta", 210);
             } else {
               if (response == 2) {
                 newUserForm();
@@ -133,12 +131,34 @@ public class ATM {
 
     passwordLabel = new JLabel("Contrase\u00f1a");
     passwordLabel.setBounds(50, 225, 225, 30);
-    JTextField passwordField;
-    passwordField = new JTextField("");
+    JPasswordField passwordField;
+    passwordField = new JPasswordField("");
     passwordField.setBounds(50, 250, 225, 40);
 
     JButton next = new JButton("Siguiente");
     next.setBounds(150, 400, 300, 40);
+    next.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        String username = usernameField.getText();
+        String name = nameField.getText();
+        String password = passwordField.getPassword().toString();
+        int response;
+        try {
+          response = atmClient.createUser(name, username, password);
+          if (response == 0) {
+           // initialDeposit(username);
+          } else {
+            if (response == 1) {
+              message("Usuario ya creado", 200);
+            }
+          }
+        } catch (RemoteException e1) {
+          // TODO Auto-generated catch block
+          e1.printStackTrace();
+        }
+
+      }
+    });
 
     JButton goBack = new JButton("Volver");
     goBack.setBounds(150, 450, 300, 40);
@@ -182,12 +202,33 @@ public class ATM {
 
     passwordLabel = new JLabel("Contrase\u00f1a");
     passwordLabel.setBounds(190, 225, 225, 30);
-    JTextField passwordField;
-    passwordField = new JTextField("");
+    JPasswordField passwordField;
+    passwordField = new JPasswordField();
     passwordField.setBounds(190, 250, 225, 40);
 
     JButton next = new JButton("Siguiente");
     next.setBounds(150, 400, 300, 40);
+    next.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        String username = usernameField.getText();
+        String password = passwordField.getPassword().toString();
+        int response;
+        try {
+          response = atmClient.authenticateUser(username, password);
+          if (response == 0) {
+           // initialDeposit(username);
+          } else {
+            if (response == 1) {
+              message("Credenciales incorrectas", 200);
+            }
+          }
+        } catch (RemoteException e1) {
+          // TODO Auto-generated catch block
+          e1.printStackTrace();
+        }
+
+      }
+    });
 
     JButton goBack = new JButton("Volver");
     goBack.setBounds(150, 450, 300, 40);
@@ -211,37 +252,28 @@ public class ATM {
 
   }
 
-  public void errorMessage(String message, int x) {
+  
+
+  public void message(String message, int x) {
     clear();
+    System.out.println("clear...");
     // Titles
-    JLabel errorLabel, loadingLabel;
-    errorLabel = new JLabel(message);
-    errorLabel.setBounds(x, 50, 300, 30);
+    JLabel messageLabel;
+    messageLabel = new JLabel(message);
+    messageLabel.setBounds(x, 50, 300, 30);
 
-    loadingLabel = new JLabel("Volviendo al men\u00fa principal en 3");
-    loadingLabel.setBounds(172, 100, 300, 30);
-
+    JButton goBack = new JButton("Volver al menú principal");
+    goBack.setBounds(150, 350, 300, 40);
+    goBack.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        mainMenu();
+      }
+    });
     // Adding contents to the screen
-    f.add(errorLabel);
-    f.add(loadingLabel);
+    f.add(messageLabel);
+    f.add(goBack);
 
     repaint();
-
-    for (int i = 2; i >= 0; i--) {
-      try {
-        Thread.sleep(1000);
-      } catch (InterruptedException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      }
-      f.getContentPane().remove(loadingLabel);
-      loadingLabel = new JLabel("Volviendo al men\u00fa principal en " + i);
-      loadingLabel.setBounds(172, 100, 300, 30);
-      f.add(loadingLabel);
-      repaint();
-    }
-
-    mainMenu();
 
   }
 
