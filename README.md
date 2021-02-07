@@ -11,7 +11,7 @@ Para correr la aplicación se necesita un JDK v11 o mayor.
 ```
 javac *.java
 ```
-2. Luego se debe correr el servicio de rmi con el siguiente comando:
+2. Luego se debe correr el servicio de RMI con el siguiente comando:
 ```
 start rmiregistry
 ```
@@ -20,8 +20,8 @@ start rmiregistry
 java OperationServer
 ```
 
-#### Atm
-1. Para correr el cliente se debe abrir una consola de comandos en la carpeta de Atm y compilar las clases con el siguiente comando:
+#### ATM
+1. Para correr el cliente se debe abrir una consola de comandos en la carpeta de ATM y compilar las clases con el siguiente comando:
 ```
 javac *.java
 ```
