@@ -1,6 +1,10 @@
 import java.rmi.*;
 import java.rmi.server.*;
 
+import java.io.File;  // Import the File class
+import java.io.FileNotFoundException;  // Import this class to handle errors
+import java.util.Scanner; // Import the Scanner class to read text files
+
 public class Bank implements OperationServerInterface {
 	/**
 	 *
@@ -15,7 +19,35 @@ public class Bank implements OperationServerInterface {
 
 	@Override
 	public int validateUserId(String userId) throws RemoteException {
-		return 0;
+		int userExists = 0;
+
+		try {
+			File myObj = new File("users.txt");
+			Scanner myReader = new Scanner(myObj);
+			while (myReader.hasNextLine() && userExists == 0) {
+				String data = myReader.nextLine();
+
+				String documentId = data.split(",")[0];
+
+				if (documentId == userId) {
+					userExists = 1;	
+					System.out.println(data);
+				}
+			}
+			myReader.close();
+			
+			return userExists;
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+
+		return userExists;		
+	}
+
+
+	@Override
+	public int totalUserAccounts(String userId) throws RemoteException {
+		return 3;
 	}
 
 
