@@ -6,6 +6,11 @@ import java.io.FileNotFoundException; // Import this class to handle errors
 import java.util.ArrayList;
 import java.util.Scanner; // Import the Scanner class to read text files
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+
 public class Bank implements OperationServerInterface {
 	/**
 	 *
@@ -245,10 +250,10 @@ public class Bank implements OperationServerInterface {
 			Scanner myReader = new Scanner(myObj);
 			while (myReader.hasNextLine() && accountExists == 0) {
 				String data = myReader.nextLine();
-				String documentId = data.split(",")[1];
+				String accountNumber = data.split(",")[1];
 				String user = data.split(",")[0];
 
-				if (documentId.equals(accountId) && user.equals(userId)) {
+				if (accountNumber.equals(accountId) && user.equals(userId)) {
 					accountExists = 1;	
 				}
 			}
@@ -305,15 +310,87 @@ public class Bank implements OperationServerInterface {
 	}
 
 	@Override
-	public Integer deposit(String account, Double amount) throws RemoteException {
+	public Integer deposit(String account, String transactionDescription, Double amount) throws RemoteException {
 		
 		String userAccount = getUserAccount(account);
 		Double balance = Double.parseDouble(userAccount.split(",")[2]);
+		System.out.println(this.getMaxTransactionId());
+		Integer transactionId = this.getMaxTransactionId() ++;
 		balance += amount;
-		
 
+		try (
+				FileWriter f = new FileWriter("deposits.txt", true);
+				BufferedWriter b = new BufferedWriter(f);
+				PrintWriter p = new PrintWriter(b);
+			) {
+			
+			SimpleDateFormatter formatter = new SimpleDateFormatter("dd/MM/yyyy HH:mm:ss");
+			Date currentDate = new Date();
+
+			String depositInformation = String.format("%s,%s,%s,%s,%s", account, transactionId, amount, formatter.format(currentDate), transactionDescription);
+			
+			System.out.println(depositInformation);
+			p.println(depositInformation);
+
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		
 		return 1;
 	}	
 	
+
+	@Override
+	public int getMaxTransactionId() throws RemoteException {
+		int transactionDepositId = 1;
+		int transactionWithdrawalId = 1;
+		int transactionTransferenceId = 1;
+
+		try {
+			File myObj = new File("deposits.txt");
+			Scanner myReader = new Scanner(myObj);
+			while (myReader.hasNextLine()) {
+				String data = myReader.nextLine();
+				String transactionDepositId = data.split(",")[1];
+			}
+			myReader.close();
+			
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+
+		try {
+			File myObj = new File("withdrawals.txt");
+			Scanner myReader = new Scanner(myObj);
+			while (myReader.hasNextLine()) {
+				String data = myReader.nextLine();
+				String transactionWithdrawalId = data.split(",")[1];
+			}
+			myReader.close();
+			
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+
+		try {
+			File myObj = new File("tranferences.txt");
+			Scanner myReader = new Scanner(myObj);
+			while (myReader.hasNextLine()) {
+				String data = myReader.nextLine();
+				String transactionTransferenceId = data.split(",")[1];
+			}
+			myReader.close();
+			
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+
+		List<Integer> transactionIds = new ArrayList<Integer>();
+		transactionIds.add(transactionDepositId);
+		transactionIds.add(transactionWithdrawalId);
+		transactionIds.add(transactionTransferenceId);
+
+		return Collections.max(transactionIds);
+	}
 	
 }

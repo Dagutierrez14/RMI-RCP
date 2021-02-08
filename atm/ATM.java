@@ -24,7 +24,7 @@ public class ATM {
     welcomeLabel = new JLabel("Bienvenido a UCAB - ATM");
     welcomeLabel.setBounds(225, 50, 300, 30);
 
-    menuLabel = new JLabel("Men\u00fa principal");
+    menuLabel = new JLabel("Menú principal");
     menuLabel.setBounds(255, 100, 300, 30);
 
     // Options

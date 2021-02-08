@@ -6,4 +6,6 @@ public interface OperationServerInterface extends Remote
     public int authenticateUser(String username, String password) throws RemoteException;
     public String creatAccount(String username, double deposit) throws RemoteException;
     public int createUser(String name, String username, String password) throws RemoteException;
+    // public Integer deposit(String account, String transactionDescription, Double amount) throws RemoteException;
+    // public int getMaxTransactionId() throws RemoteException;
 }
