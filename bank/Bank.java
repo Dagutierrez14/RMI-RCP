@@ -117,21 +117,26 @@ public class Bank implements OperationServerInterface {
 	@Override
 	public ArrayList<String> getUserAccounts(Integer userId) throws RemoteException, FileNotFoundException {
 		
-		File myObj = new File("accounts.txt");
-		Scanner myReader = new Scanner(myObj);
-		String[] currentAccount;
 		ArrayList<String> accounts = new ArrayList<String>();
 
-		while (myReader.hasNextLine()) {
-			String data = myReader.nextLine();
-			System.out.println(data);
-			currentAccount = data.split(",");
-			if((userId.toString()).equals(currentAccount[0])){
-				accounts.add(currentAccount[1]);
-			}
-		}
+		try {
+			File myObj = new File("accounts.txt");
+			Scanner myReader = new Scanner(myObj);
+			String[] currentAccount;			
 
-		myReader.close();
+			while (myReader.hasNextLine()) {
+				String data = myReader.nextLine();
+				System.out.println(data);
+				currentAccount = data.split(",");
+				if((userId.toString()).equals(currentAccount[0])){
+					accounts.add(currentAccount[1]);
+				}
+			}
+
+			myReader.close();
+		} catch (Exception e) {
+			System.out.println(e);
+		}
 
 		return accounts;
 	}
