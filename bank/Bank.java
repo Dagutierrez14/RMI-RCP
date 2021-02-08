@@ -1,8 +1,9 @@
 import java.rmi.*;
 import java.rmi.server.*;
 
-import java.io.File;  // Import the File class
-import java.io.FileNotFoundException;  // Import this class to handle errors
+import java.io.File; // Import the File class
+import java.io.FileNotFoundException; // Import this class to handle errors
+import java.util.ArrayList;
 import java.util.Scanner; // Import the Scanner class to read text files
 
 public class Bank implements OperationServerInterface {
@@ -73,5 +74,28 @@ public class Bank implements OperationServerInterface {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	@Override
+	public ArrayList<String> getUserAccounts(Integer userId) throws RemoteException, FileNotFoundException {
+		
+		File myObj = new File("accounts.txt");
+		Scanner myReader = new Scanner(myObj);
+		String[] currentAccount;
+		ArrayList<String> accounts = new ArrayList<String>();
+
+		while (myReader.hasNextLine()) {
+			String data = myReader.nextLine();
+			System.out.println(data);
+			currentAccount = data.split(",");
+			if((userId.toString()).equals(currentAccount[0])){
+				accounts.add(currentAccount[1]);
+			}
+		}
+
+		myReader.close();
+
+		return accounts;
+	}
+	
 	
 }
