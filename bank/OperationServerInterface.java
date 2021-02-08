@@ -12,4 +12,6 @@ public interface OperationServerInterface extends Remote
     public String getAccountBalance(String id) throws RemoteException;
     public Integer validateUserAccount(String userId, String accountId) throws RemoteException;
     public Integer thirdPartyAccountExists(String thirdPartyUserId, String thirdPartyAccountId) throws RemoteException;
+    public String getUserAccount(String accountId) throws RemoteException;
+    public Integer deposit(String account, Double amount) throws RemoteException;
 }

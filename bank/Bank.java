@@ -275,6 +275,44 @@ public class Bank implements OperationServerInterface {
 		};
 
 		return 1;
+	}
+
+	@Override
+	public String getUserAccount(String accountId) throws RemoteException {
+		
+		String account = "";
+
+		try {
+			File myObj = new File("accounts.txt");
+			Scanner myReader = new Scanner(myObj);
+			while (myReader.hasNextLine() && account == "") {
+				String data = myReader.nextLine();
+
+				String id = data.split(",")[1];
+
+				if (id.equals(accountId)) {
+					account = data;
+				}
+			}
+			myReader.close();
+						
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+
+		return account;
+			
+	}
+
+	@Override
+	public Integer deposit(String account, Double amount) throws RemoteException {
+		
+		String userAccount = getUserAccount(account);
+		Double balance = Double.parseDouble(userAccount.split(",")[2]);
+		balance += amount;
+		
+
+		return 1;
 	}	
 	
 	
