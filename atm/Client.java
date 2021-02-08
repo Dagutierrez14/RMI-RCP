@@ -29,9 +29,8 @@ public class Client implements OperationServerInterface{
 	@Override
 	public int authenticateUser(String username, String password) throws RemoteException {
 		// TODO Auto-generated method stub
-		/*int response = bankServer.authenticateUser(username, password);
-		return response;*/
-		return 0;
+		int response = bankServer.authenticateUser(username, password);
+		return response;
 	}
 
 	@Override

@@ -27,7 +27,6 @@ public class Bank implements OperationServerInterface {
 			while (myReader.hasNextLine() && userExists == 0) {
 				String data = myReader.nextLine();
 				String documentId = data.split(",")[0];
-				System.out.println(documentId);
 
 				if (documentId.equals(userId)) {
 					userExists = 1;	
@@ -74,8 +73,28 @@ public class Bank implements OperationServerInterface {
 
 	@Override
 	public int authenticateUser(String username, String password) throws RemoteException {
-		// TODO Auto-generated method stub
-		return 0;
+		int userExists = 0;
+
+		try {
+			File myObj = new File("users.txt");
+			Scanner myReader = new Scanner(myObj);
+			while (myReader.hasNextLine() && userExists == 0) {
+				String data = myReader.nextLine();
+				String user = data.split(",")[1];
+				String psswd = data.split(",")[2];
+
+				if (username.equals(userId) && password.equals(psswd)) {
+					userExists = 1;	
+				}
+			}
+			myReader.close();
+			
+			return userExists;
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+
+		return userExists;
 	}
 
 
