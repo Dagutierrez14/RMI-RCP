@@ -15,4 +15,6 @@ public interface OperationServerInterface extends Remote
     public String getUserAccount(String accountId) throws RemoteException;
     public Integer deposit(String account, String transactionDescription, Double amount) throws RemoteException;
     public int getMaxTransactionId() throws RemoteException;
+    public int updateCurrentBalance (String userId, String account, Double amount) throws RemoteException;
+    public int withdrawal (String account, Integer transactionId, String transactionDescription, Double amount) throws RemoteException;
 }

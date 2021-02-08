@@ -46,8 +46,7 @@ public class Bank implements OperationServerInterface {
 			}
 			myReader.close();
 
-			
-			this.deposit("1", "Hola", 23.45);
+			this.updateCurrentBalance(userId, "1", 38.85);
 			
 			return userExists;
 		} catch (Exception e) {
@@ -299,7 +298,7 @@ public class Bank implements OperationServerInterface {
 		try {
 			File myObj = new File("accounts.txt");
 			Scanner myReader = new Scanner(myObj);
-			while (myReader.hasNextLine() && account == "") {
+			while (myReader.hasNextLine() && account.equals("")) {
 				String data = myReader.nextLine();
 
 				String id = data.split(",")[1];
@@ -343,7 +342,92 @@ public class Bank implements OperationServerInterface {
 
 		} catch (Exception e) {
 			System.out.println(e);
+			return 0;
 		}
+		
+		return 1;
+	}
+
+	@Override
+	public int withdrawal (String account, Integer transactionId, String transactionDescription, Double amount) throws RemoteException {
+		
+		if (transactionId == null) {
+			transactionId = this.getMaxTransactionId() + 1;
+		}
+
+		try (
+				FileWriter f = new FileWriter("withdrawals.txt", true);
+				BufferedWriter b = new BufferedWriter(f);
+				PrintWriter p = new PrintWriter(b);
+			) {
+			
+			SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+			Date currentDate = new Date();
+
+			String withdrawalInformation = String.format("%s,%s,%s,%s,%s", account, transactionId, amount, formatter.format(currentDate), transactionDescription);
+			
+			System.out.println(withdrawalInformation);
+			p.println(withdrawalInformation);
+
+		} catch (Exception e) {
+			System.out.println(e);
+			return 0;
+		}
+		
+		return 1;
+	}
+
+	@Override
+	public int updateCurrentBalance (String userId, String accountId, Double amount) throws RemoteException {
+		String accountInformation = "";
+		String accountNewInformation = String.format("%s,%s,%s", userId, accountId, amount);
+
+		try {
+			File myObj = new File("accounts.txt");
+			Scanner myReader = new Scanner(myObj);
+			StringBuffer buffer = new StringBuffer();
+
+			while (myReader.hasNextLine() && accountInformation.equals("")) {
+				String data = myReader.nextLine();
+
+				String accountNumber = data.split(",")[1];
+
+				buffer.append(data + System.lineSeparator());
+
+				if (accountNumber.equals(accountId)) {
+					System.out.println(data);
+					accountInformation = data;
+				}
+			}
+			myReader.close();
+
+			String accountFileContent = buffer.toString();
+			accountFileContent = accountFileContent.replaceAll(accountInformation, accountNewInformation);
+
+			FileWriter f = new FileWriter("accounts.txt", true);
+			f.append(accountFileContent);
+			f.flush();
+
+		} catch(Exception e) {
+			System.out.println(e);
+			return 0;
+		}
+
+		/*try (
+				FileWriter f = new FileWriter("accounts.txt", true);
+				BufferedWriter b = new BufferedWriter(f);
+				PrintWriter p = new PrintWriter(b);
+			) {
+
+			
+			
+			System.out.println(accountInformation);
+			p.println(accountInformation);
+
+		} catch (Exception e) {
+			System.out.println(e);
+			return 0;
+		}*/
 		
 		return 1;
 	}	
