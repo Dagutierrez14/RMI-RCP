@@ -1,0 +1,4 @@
+# structure: account_id, id, amount, date, description
+1,1,5.00,07/02/2021,pago
+1,2,6.50,07/02/2021,pago
+3,3,10.00,07/02/2021,pago
