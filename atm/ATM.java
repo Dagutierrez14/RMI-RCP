@@ -75,12 +75,11 @@ public class ATM {
           if (response == 0) {
             newUserForm();
           } else {
-            if (response == 1) {
+            int userTotalAccounts = atmClient.totalUserAccounts(userId);
+            if (userTotalAccounts == 3) {
               message("Ya tiene abierta tres cuenta", 210);
             } else {
-              if (response == 2) {
-                newUserForm();
-              }
+              newUserForm();
             }
           }
         } catch (RemoteException e1) {

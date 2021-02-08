@@ -26,12 +26,11 @@ public class Bank implements OperationServerInterface {
 			Scanner myReader = new Scanner(myObj);
 			while (myReader.hasNextLine() && userExists == 0) {
 				String data = myReader.nextLine();
-
 				String documentId = data.split(",")[0];
+				System.out.println(documentId);
 
-				if (documentId == userId) {
+				if (documentId.equals(userId)) {
 					userExists = 1;	
-					System.out.println(data);
 				}
 			}
 			myReader.close();
@@ -47,7 +46,28 @@ public class Bank implements OperationServerInterface {
 
 	@Override
 	public int totalUserAccounts(String userId) throws RemoteException {
-		return 3;
+		int totalAccounts = 0;
+
+		try {
+			File myObj = new File("accounts.txt");
+			Scanner myReader = new Scanner(myObj);
+			while (myReader.hasNextLine() && totalAccounts < 3) {
+				String data = myReader.nextLine();
+
+				String documentId = data.split(",")[0];
+
+				if (documentId.equals(userId)) {
+					totalAccounts++;
+				}
+			}
+			myReader.close();
+			
+			return totalAccounts;
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+
+		return totalAccounts;	
 	}
 
 
