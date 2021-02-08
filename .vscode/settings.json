@@ -1,0 +1,6 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "/home/rafael/Documents/Ricardo/UCAB/IX Semestre/Sistemas Distribuidos/JAVA-rmi/**/*.jar"
+    ]
+}

@@ -18,17 +18,23 @@ public class Bank implements OperationServerInterface {
 		return 0;
 	}
 
+
+
 	@Override
 	public int authenticateUser(String username, String password) throws RemoteException {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
+
+
 	@Override
 	public String creatAccount(String username, double deposit) throws RemoteException {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
 
 	@Override
 	public int createUser(String name, String username, String password) throws RemoteException {
