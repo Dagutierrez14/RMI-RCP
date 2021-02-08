@@ -134,11 +134,105 @@ public class Bank implements OperationServerInterface {
 			}
 
 			myReader.close();
+
 		} catch (Exception e) {
 			System.out.println(e);
 		}
 
 		return accounts;
+	}
+
+	@Override
+	public String getAccountBalance(Integer id) throws RemoteException {
+		
+		Integer accountFound = 0;
+		String balance = "";
+
+		try {
+			File myObj = new File("accounts.txt");
+			Scanner myReader = new Scanner(myObj);
+			String[] currentAccount;
+			String[] currentTrans;
+
+			while(myReader.hasNextLine() && accountFound == 0){
+				String data = myReader.nextLine();
+				currentAccount = data.split(",");
+				if((id.toString()).equals(currentAccount[1])){
+					balance += data + "/";
+					accountFound = 1;
+				}
+			}			
+
+			myReader.close();	
+			Integer firstTrans = 1;		
+
+			myObj = new File("deposits.txt");
+			myReader = new Scanner(myObj);
+
+			while(myReader.hasNextLine()){
+				String data = myReader.nextLine();
+				currentTrans = data.split(",");
+				if(id.toString().equals(currentTrans[0])){
+					if(firstTrans == 1){
+						balance += data;
+						firstTrans = 0;
+					}
+					else {
+						balance += "," + data;
+					}					
+				};				
+			}
+
+			balance += "/";			
+			myReader.close();
+			firstTrans = 1;
+
+			myObj = new File("transferences.txt");
+			myReader = new Scanner(myObj);
+
+			while(myReader.hasNextLine()){
+				String data = myReader.nextLine();
+				currentTrans = data.split(",");
+				if(id.toString().equals(currentTrans[0])){
+					if(firstTrans == 1){
+						balance += data;
+						firstTrans = 0;
+					}
+					else {
+						balance += "," + data;
+					}	
+				};				
+			}
+
+			balance += "/";			
+			myReader.close();
+			firstTrans = 1;
+
+			myObj = new File("withdrawals.txt");
+			myReader = new Scanner(myObj);
+
+			while(myReader.hasNextLine()){
+				String data = myReader.nextLine();
+				currentTrans = data.split(",");
+				if(id.toString().equals(currentTrans[0])){
+					if(firstTrans == 1){
+						balance += data;
+						firstTrans = 0;
+					}
+					else {
+						balance += "," + data;
+					}	
+				};				
+			}
+			
+			myReader.close();
+			firstTrans = 1;
+
+		} catch (Exception e) {
+			System.out.println(e);			
+		}
+
+		return balance;
 	}
 	
 	
