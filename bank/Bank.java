@@ -84,7 +84,7 @@ public class Bank implements OperationServerInterface {
 				String user = data.split(",")[1];
 				String psswd = data.split(",")[2];
 
-				if (username.equals(userId) && password.equals(psswd)) {
+				if (username.equals(user) && password.equals(psswd)) {
 					userExists = 1;	
 				}
 			}
