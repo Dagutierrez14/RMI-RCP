@@ -11,6 +11,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import java.util.Date;
+import java.text.SimpleDateFormat;
+
+import java.util.Collections;
+import java.util.List;
+
 public class Bank implements OperationServerInterface {
 	/**
 	 *
@@ -39,6 +45,9 @@ public class Bank implements OperationServerInterface {
 				}
 			}
 			myReader.close();
+
+			
+			this.deposit("1", "Hola", 23.45);
 			
 			return userExists;
 		} catch (Exception e) {
@@ -315,7 +324,7 @@ public class Bank implements OperationServerInterface {
 		String userAccount = getUserAccount(account);
 		Double balance = Double.parseDouble(userAccount.split(",")[2]);
 		System.out.println(this.getMaxTransactionId());
-		Integer transactionId = this.getMaxTransactionId() ++;
+		Integer transactionId = this.getMaxTransactionId() + 1;
 		balance += amount;
 
 		try (
@@ -324,7 +333,7 @@ public class Bank implements OperationServerInterface {
 				PrintWriter p = new PrintWriter(b);
 			) {
 			
-			SimpleDateFormatter formatter = new SimpleDateFormatter("dd/MM/yyyy HH:mm:ss");
+			SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 			Date currentDate = new Date();
 
 			String depositInformation = String.format("%s,%s,%s,%s,%s", account, transactionId, amount, formatter.format(currentDate), transactionDescription);
@@ -351,7 +360,7 @@ public class Bank implements OperationServerInterface {
 			Scanner myReader = new Scanner(myObj);
 			while (myReader.hasNextLine()) {
 				String data = myReader.nextLine();
-				String transactionDepositId = data.split(",")[1];
+				transactionDepositId = Integer.parseInt(data.split(",")[1]);
 			}
 			myReader.close();
 			
@@ -364,7 +373,7 @@ public class Bank implements OperationServerInterface {
 			Scanner myReader = new Scanner(myObj);
 			while (myReader.hasNextLine()) {
 				String data = myReader.nextLine();
-				String transactionWithdrawalId = data.split(",")[1];
+				transactionWithdrawalId = Integer.parseInt(data.split(",")[1]);
 			}
 			myReader.close();
 			
@@ -377,7 +386,7 @@ public class Bank implements OperationServerInterface {
 			Scanner myReader = new Scanner(myObj);
 			while (myReader.hasNextLine()) {
 				String data = myReader.nextLine();
-				String transactionTransferenceId = data.split(",")[1];
+				transactionTransferenceId = Integer.parseInt(data.split(",")[1]);
 			}
 			myReader.close();
 			

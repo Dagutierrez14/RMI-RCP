@@ -1,4 +1,6 @@
-# structure: account_id, transaction_id, amount, date, description
 1,1,5.00,07/02/2021,pago
 1,2,6.50,07/02/2021,pago
 3,3,10.00,07/02/2021,pago
+1,4,23.45,08/02/2021 08:23:44,Hola
+
+# structure: account_id, transaction_id, amount, date, description
