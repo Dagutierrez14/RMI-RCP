@@ -8,6 +8,8 @@ public interface OperationServerInterface extends Remote
     public int authenticateUser(String username, String password) throws RemoteException;
     public String creatAccount(String username, double deposit) throws RemoteException;
     public int createUser(String name, String username, String password) throws RemoteException;
-    public ArrayList<String> getUserAccounts(Integer userId) throws RemoteException, FileNotFoundException;
-    public String getAccountBalance(Integer id) throws RemoteException;
+    public ArrayList<String> getUserAccounts(String userId) throws RemoteException, FileNotFoundException;
+    public String getAccountBalance(String id) throws RemoteException;
+    public Integer validateUserAccount(String userId, String accountId) throws RemoteException;
+    public Integer thirdPartyAccountExists(String thirdPartyUserId, String thirdPartyAccountId) throws RemoteException;
 }

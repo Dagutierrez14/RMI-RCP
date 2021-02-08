@@ -115,7 +115,7 @@ public class Bank implements OperationServerInterface {
 	}
 
 	@Override
-	public ArrayList<String> getUserAccounts(Integer userId) throws RemoteException, FileNotFoundException {
+	public ArrayList<String> getUserAccounts(String userId) throws RemoteException, FileNotFoundException {
 		
 		ArrayList<String> accounts = new ArrayList<String>();
 
@@ -143,7 +143,7 @@ public class Bank implements OperationServerInterface {
 	}
 
 	@Override
-	public String getAccountBalance(Integer id) throws RemoteException {
+	public String getAccountBalance(String id) throws RemoteException {
 		
 		Integer accountFound = 0;
 		String balance = "";
@@ -234,6 +234,48 @@ public class Bank implements OperationServerInterface {
 
 		return balance;
 	}
+
+	@Override
+	public Integer validateUserAccount(String userId, String accountId) throws RemoteException {
+		
+		int accountExists = 0;
+
+		try {
+			File myObj = new File("accounts.txt");
+			Scanner myReader = new Scanner(myObj);
+			while (myReader.hasNextLine() && accountExists == 0) {
+				String data = myReader.nextLine();
+				String documentId = data.split(",")[1];
+				String user = data.split(",")[0];
+
+				if (documentId.equals(accountId) && user.equals(userId)) {
+					accountExists = 1;	
+				}
+			}
+			myReader.close();
+			
+			return accountExists;
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+
+		return accountExists;		
+	}
+	
+	@Override
+	public Integer thirdPartyAccountExists(String thirdPartyUserId, String thirdPartyAccountId)
+			throws RemoteException {
+		
+		if(validateUserId(thirdPartyUserId) == 0){
+			return 0;
+		};
+
+		if(validateUserAccount(thirdPartyUserId, thirdPartyAccountId) == 0){
+			return 0;
+		};
+
+		return 1;
+	}	
 	
 	
 }
