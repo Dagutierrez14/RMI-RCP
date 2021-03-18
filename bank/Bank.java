@@ -395,7 +395,6 @@ public class Bank implements OperationServerInterface {
 				buffer.append(data + System.lineSeparator());
 
 				if (accountNumber.equals(accountId)) {
-					System.out.println(data);
 					accountInformation = data;
 				}
 			}
